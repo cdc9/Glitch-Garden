@@ -35,25 +35,10 @@ public class Defender : MonoBehaviour {
         starDisplay.AddStars(amount);
     }
 
-    //THIS IS FOR UPGRADING TOWER
+    //THIS IS FOR UPGRADING TOWER. First pass this defender's position and upgraded defender associated with it. Then Destroy it. 
     public void OnMouseDown()
     {
-        if (upgrade.isUpgradeSelected && upgrade.upgradeCount >= 1)
-        {
-            SpawnDefender(upgradedTowersPosition, upgradedDefender);
-            Destroy(gameObject);
-            upgrade.UpgradeSelectedTower();
-        }
-        else
-        {
-            Debug.Log("Couldn't summon upgraded tower");
-        }
-    }
-
-    void SpawnDefender(Vector2 upgradedTowersPosition, GameObject upgradedDefender)
-    {
-        Quaternion zeroRotation = Quaternion.identity; //Set rotation to zero
-        GameObject newUpgradedDef = Instantiate(upgradedDefender, upgradedTowersPosition, zeroRotation) as GameObject;
-        newUpgradedDef.transform.parent = defenderParent.transform;
-    }
+        upgrade.UpgradeTower(upgradedTowersPosition, upgradedDefender);
+        Destroy(gameObject);
+    }    
 }

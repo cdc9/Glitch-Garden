@@ -62,20 +62,23 @@ public class Upgrade : MonoBehaviour {
         isUpgradeSelected = false;
     }
 
-    public void UpgradeSelectedTower()
+
+    //This is for upgrading the tower. Spawn upgraded defender, subtract 1 from upgrade token amount, update display, and deselect upgrade icon
+    public void UpgradeTower(Vector2 upgradedTowersPosition, GameObject upgradedDefender)
     {
-        if(isUpgradeSelected && upgradeCount >= 1)
+        if (isUpgradeSelected && upgradeCount >= 1)
         {
+            SpawnDefender(upgradedTowersPosition, upgradedDefender);
             upgradeCount--;
             upgradeDisplay.UpdateDisplay(upgradeCount);
             DeselectUpgradeIcon();
         }
+        else
+        {
+            Debug.Log("Couldn't summon upgraded tower");
+        }
     }
 
-    public void UpgradeTower()
-    {
-        //TODO if the upgrade is selected, clicking on an existing tower will replace it with an upgraded version of itself.
-    }
 
     public void OnMouseDown()
     {
@@ -93,6 +96,13 @@ public class Upgrade : MonoBehaviour {
             upgradeItem.transform.position = enemyPosition;
         }
 
+    }
+
+    //Spawn new defender in the old one's place
+    void SpawnDefender(Vector2 upgradedTowersPosition, GameObject upgradedDefender)
+    {
+        Quaternion zeroRotation = Quaternion.identity; //Set rotation to zero
+        GameObject newUpgradedDef = Instantiate(upgradedDefender, upgradedTowersPosition, zeroRotation) as GameObject;
     }
 
 }
